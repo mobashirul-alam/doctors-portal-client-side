@@ -1,23 +1,40 @@
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading/Loading';
 
 const MyAppointment = () => {
     const [user, loading] = useAuthState(auth);
     const [appointments, setAppointments] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/booking?patient=${user.email}`)
-            .then(res => res.json())
-            .then(data => setAppointments(data))
-    }, [user]);
+        fetch(`https://doctors-portal-mobashirul-alam.herokuapp.com/booking?patient=${user.email}`, {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    signOut(auth);
+                    localStorage.removeItem('accessToken');
+                    navigate('/')
+                }
+                return res.json()
+            })
+            .then(data => {
+                setAppointments(data)
+            })
+    }, [user, navigate]);
 
     if (loading) {
         return <Loading></Loading>
     };
     return (
-        <div class="overflow-x-auto">
+        <div class="w-11/12 overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
                     <tr>
