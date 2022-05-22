@@ -8,7 +8,7 @@ const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const [loading, setLoading] = useState(false);
 
-    const { data: services, isLoading } = useQuery('servicesName', () => fetch('http://localhost:5000/serviceName').then(res => res.json()));
+    const { data: services, isLoading } = useQuery('servicesName', () => fetch('https://doctors-portal-mobashirul-alam.herokuapp.com/serviceName').then(res => res.json()));
 
     const imageStorageKey = 'b3d0985ebd99675f5c679657e90be656';
 
@@ -43,7 +43,7 @@ const AddDoctor = () => {
                         img: img
                     }
                     // send to your database
-                    fetch('http://localhost:5000/doctor', {
+                    fetch('https://doctors-portal-mobashirul-alam.herokuapp.com/doctor', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',

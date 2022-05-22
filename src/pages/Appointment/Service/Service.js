@@ -16,6 +16,7 @@ const Service = ({ service, setTreatment }) => {
                 <p className='font-normal text-sm'>
                     {service.slots?.length} {service.slots?.length <= 1 ? 'space' : 'spaces'} available
                 </p>
+                <p><small>Price : ${service.price}</small></p>
                 <div className="card-actions justify-center">
                     {/* <button
 
