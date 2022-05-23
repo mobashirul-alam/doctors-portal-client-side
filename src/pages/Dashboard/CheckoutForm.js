@@ -91,15 +91,10 @@ const CheckoutForm = ({ appointment }) => {
                 .then(res => res.json())
                 .then(data => {
                     setProcessing(false);
-                    console.log(data);
                 })
 
         }
     }
-
-    if (processing) {
-        return <Loading></Loading>;
-    };
 
     return (
         <>
@@ -123,7 +118,7 @@ const CheckoutForm = ({ appointment }) => {
                 <button
                     className='btn btn-sm btn-success mt-4'
                     type="submit"
-                    disabled={!stripe || !clientSecret || success}>
+                    disabled={!stripe || !clientSecret || success || processing}>
                     Pay
                 </button>
             </form>
